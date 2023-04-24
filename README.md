@@ -1,12 +1,9 @@
 # Angular-RxJS
-Find the associated Pluralsight course here: https://app.pluralsight.com/library/courses/rxjs-angular-reactive-development
 
-`APM-Start`: The starter files for the course. **Use this to code along with the course**.
+This course is from Pluralsight - Credits to Deborah Kurata 
 
-`APM-Final`: The completed files. Use this to see the completed solution from the course.
+All features should be merged into master.
 
-`APM-WithExtras`: The completed files with some extra code. Use this to see some additional techniques not included in the course.
 
-I've developed a few additional examples, including using action streams to "pass" parameters and retrieve multiple related datasets here: https://stackblitz.com/edit/angular-todos-deborahk
-
-To work through this course with stackblitz, start with the APM-Start project using this link: https://stackblitz.com/github/DeborahK/Angular-RxJS/tree/master/APM-Start
+### APM Start - will contain a course starter files with improvemenets that I have done during the course
+### APM Final - is containing the final file which was written by Deborah as a destination.
