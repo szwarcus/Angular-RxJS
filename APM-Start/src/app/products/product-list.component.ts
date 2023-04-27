@@ -10,22 +10,22 @@ import { ProductService } from "./product.service";
 })
 export class ProductListComponent {
   pageTitle = "Product List";
-  errorMessage = "";
-
+  private errorMessage = new Subject<string>();
   private categorySelectedSubject = new BehaviorSubject<number>(0);
 
+  errorMessage$ = this.errorMessage.asObservable();
   categorySelectedSubject$ = this.categorySelectedSubject.asObservable();
 
   categories$ = this.productCategoryService.$categories.pipe(
     catchError((err) => {
-      this.errorMessage = err;
+      this.errorMessage.next(err);
 
       return EMPTY;
     })
   );
 
   products$ = combineLatest([
-    this.productService.productsWithCategories$, 
+    this.productService.productsWithAdd$, 
     this.categorySelectedSubject$])
     .pipe(
       map(([products, selectedCategoryId]) => 
@@ -33,7 +33,7 @@ export class ProductListComponent {
       (selectedCategoryId ? product.categoryId === selectedCategoryId : true))),
 
     catchError((err) => {
-      this.errorMessage = err;
+      this.errorMessage.next(err);
 
       return EMPTY;
     })
@@ -42,7 +42,7 @@ export class ProductListComponent {
   constructor(private productService: ProductService, private productCategoryService: ProductCategoryService) {}
 
   onAdd(): void {
-    console.log("Not yet implemented");
+    this.productService.onAdd();
   }
 
   onSelected(categoryId: string): void {
