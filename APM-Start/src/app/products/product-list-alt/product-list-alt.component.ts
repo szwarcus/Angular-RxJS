@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { EMPTY, Subscription, catchError } from 'rxjs';
+import { BehaviorSubject, EMPTY, Subject, Subscription, catchError } from 'rxjs';
 
 import { Product } from '../product';
 import { ProductService } from '../product.service';
@@ -11,13 +11,22 @@ import { ProductService } from '../product.service';
 })
 export class ProductListAltComponent {
   pageTitle = 'Products';
-  errorMessage = '';
   selectedProductId = 0;
+  private errorMessage = new Subject<string>();
 
-  products$ = this.productService.products$
+  errorMessage$ = this.errorMessage.asObservable();
+
+  products$ = this.productService.productsWithCategories$
     .pipe(
       catchError(err => {
-        this.errorMessage == err;
+        this.errorMessage.next(err);
+        return EMPTY;
+      })
+    )
+
+    selectedProduct$ = this.productService.productSelectedSubject$.pipe(
+      catchError(err => {
+        this.errorMessage.next(err);
         return EMPTY;
       })
     )
@@ -25,6 +34,6 @@ export class ProductListAltComponent {
   constructor(private productService: ProductService) { }
 
   onSelected(productId: number): void {
-    console.log('Not yet implemented');
+    this.productService.changeSelectedProduct(productId);
   }
 }
