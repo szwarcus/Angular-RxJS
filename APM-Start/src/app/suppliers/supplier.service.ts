@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, concatMap, mergeMap, of, switchMap, throwError } from 'rxjs';
 
-import { throwError, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Supplier } from './supplier';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,28 @@ import { throwError, Observable } from 'rxjs';
 export class SupplierService {
   suppliersUrl = 'api/suppliers';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    // this.suppliersWithConcatMap$.subscribe(item=>console.log('concatMap result:', item))
+    // this.suppliersWithMergeMap$.subscribe(item=>console.log('mergeMap result:', item))
+    // this.suppliersWithSwitchMap$.subscribe(item=>console.log('switchMap result:', item))
+  }
+
+  suppliersWithConcatMap$ = of(1,5,8)
+  .pipe(
+    concatMap(id=> this.http.get<Supplier>(`${this.suppliersUrl}/${id}`))
+    );
+
+
+  suppliersWithMergeMap$ = of(1,5,8)
+  .pipe(
+    mergeMap(id=> this.http.get<Supplier>(`${this.suppliersUrl}/${id}`))
+    );
+
+    suppliersWithSwitchMap$ = of(1,5,8)
+    .pipe(
+      switchMap(id=> this.http.get<Supplier>(`${this.suppliersUrl}/${id}`))
+      );
+  
 
   private handleError(err: HttpErrorResponse): Observable<never> {
     // in a real world app, we may send the server to some remote logging infrastructure
