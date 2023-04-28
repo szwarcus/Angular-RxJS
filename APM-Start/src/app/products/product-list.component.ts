@@ -1,6 +1,7 @@
-import { ProductCategoryService } from "./../product-categories/product-category.service";
+import { BehaviorSubject, EMPTY, Subject, catchError, combineLatest, filter, map } from "rxjs";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { BehaviorSubject, catchError, combineLatest, EMPTY, filter, map, Subject } from "rxjs";
+
+import { ProductCategoryService } from "./../product-categories/product-category.service";
 import { ProductService } from "./product.service";
 
 @Component({
@@ -16,7 +17,7 @@ export class ProductListComponent {
   errorMessage$ = this.errorMessage.asObservable();
   categorySelectedSubject$ = this.categorySelectedSubject.asObservable();
 
-  categories$ = this.productCategoryService.$categories.pipe(
+  categories$ = this.productCategoryService.categories$.pipe(
     catchError((err) => {
       this.errorMessage.next(err);
 

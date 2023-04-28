@@ -1,8 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { EMPTY, Subject, catchError } from 'rxjs';
 
-import { BehaviorSubject, EMPTY, Subject, Subscription, catchError } from 'rxjs';
-
-import { Product } from '../product';
+import { Component } from '@angular/core';
 import { ProductService } from '../product.service';
 
 @Component({
