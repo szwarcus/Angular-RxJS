@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Product } from "./product";
 import { ProductCategoryService } from "../product-categories/product-category.service";
+import { SupplierService } from '../suppliers/supplier.service';
 
 @Injectable({
   providedIn: "root",
@@ -49,7 +50,10 @@ export class ProductService {
       (value instanceof Array)? [...value] : [...acc, value], [] as Product[])
     );
     
-  constructor(private http: HttpClient, private productCategoryService: ProductCategoryService) {}
+  constructor(private http: HttpClient,
+     private productCategoryService: ProductCategoryService, 
+     private supplierService : SupplierService) {}
+     
   changeSelectedProduct(productId:number){
     this.productSelectedSubject.next(productId);
   }
