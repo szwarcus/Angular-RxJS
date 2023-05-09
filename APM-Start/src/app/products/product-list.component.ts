@@ -40,6 +40,15 @@ export class ProductListComponent {
     })
   );
 
+  vm$ = combineLatest([
+    this.products$,
+    this.categories$
+  ])
+  .pipe(
+    map(([products, categories]) =>
+    ({products, categories})) 
+  );
+
   constructor(private productService: ProductService, private productCategoryService: ProductCategoryService) {}
 
   onAdd(): void {
